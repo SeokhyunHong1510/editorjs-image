@@ -41,17 +41,17 @@
  * @property {string} file.url — image URL
  */
 
-import './index.css';
+import "./index.css";
 
-import Ui from './ui';
-import Uploader from './uploader';
+import Ui from "./ui";
+import Uploader from "./uploader";
 
 import {
   IconAddBorder,
   IconStretch,
   IconAddBackground,
   IconPicture,
-} from '@codexteam/icons';
+} from "@codexteam/icons";
 
 /**
  * @typedef {object} ImageConfig
@@ -99,7 +99,7 @@ export default class ImageTool {
   static get toolbox() {
     return {
       icon: IconPicture,
-      title: 'Image',
+      title: "Image",
     };
   }
 
@@ -111,21 +111,21 @@ export default class ImageTool {
   static get tunes() {
     return [
       {
-        name: 'withBorder',
+        name: "withBorder",
         icon: IconAddBorder,
-        title: 'With border',
+        title: "With border",
         toggle: true,
       },
       {
-        name: 'stretched',
+        name: "stretched",
         icon: IconStretch,
-        title: 'Stretch image',
+        title: "Stretch image",
         toggle: true,
       },
       {
-        name: 'withBackground',
+        name: "withBackground",
         icon: IconAddBackground,
-        title: 'With background',
+        title: "With background",
         toggle: true,
       },
     ];
@@ -146,32 +146,29 @@ export default class ImageTool {
      * Tool's initial config
      */
     this.config = {
-      endpoints: config.endpoints || '',
+      endpoints: config.endpoints || "",
       additionalRequestData: config.additionalRequestData || {},
       additionalRequestHeaders: config.additionalRequestHeaders || {},
-      field: config.field || 'image',
-      types: config.types || 'image/*',
+      field: config.field || "image",
+      types: config.types || "image/*",
       captionPlaceholder: this.api.i18n.t(
-        config.captionPlaceholder || 'Caption'
+        config.captionPlaceholder || "Caption"
       ),
-      widthPlaceholder: this.api.i18n.t(
-        config.captionPlaceholder || 'width (px)'
-      ),
-      heightPlaceholder: this.api.i18n.t(
-        config.captionPlaceholder || 'height (px)'
-      ),
-      buttonContent: config.buttonContent || '',
+      widthPlaceholder: this.api.i18n.t(config.captionPlaceholder || "width"),
+      heightPlaceholder: this.api.i18n.t(config.captionPlaceholder || "height"),
+      buttonContent: config.buttonContent || "",
       uploader: config.uploader || undefined,
       actions: config.actions || [],
       isSelectedLeft: config.isSelectedLeft || false,
       isSelectedCenter: config.isSelectedCenter || false,
       isSelectedRight: config.isSelectedRight || false,
       isChangeResizeMode: config.isChangeResizeMode || false,
-      width: data.width || 300,
-      height: data.height || 300,
-      konvaWidth: config.konvaWidth || 650,
-      konvaHeight: config.konvaHeight || 650,
-
+      width: data.width || undefined,
+      height: data.height || undefined,
+      konvaWidth: config.konvaWidth || undefined,
+      konvaHeight: config.konvaHeight || undefined,
+      initialWidth: config.initialWidth || data.width,
+      initialHeight: config.initialHeight || data.height,
     };
 
     /**
@@ -239,23 +236,22 @@ export default class ImageTool {
     const caption = this.ui.nodes.caption;
 
     this._data.caption = caption.innerHTML;
-
     if (this.config.isSelectedLeft) {
-      this._data.alignment = 'left';
+      this._data.alignment = "left";
     } else if (this.config.isSelectedCenter) {
-      this._data.alignment = 'center';
+      this._data.alignment = "center";
     } else if (this.config.isSelectedRight) {
-      this._data.alignment = 'right';
+      this._data.alignment = "right";
     } else {
-      this._data.alignment = '';
+      this._data.alignment = "";
     }
-      
-      this._data.width = parseInt(this.ui.nodes.imageEl.style.width);
-      this._data.height = parseInt(this.ui.nodes.imageEl.style.height);
-        
-      // this._data.width = this.ui.nodes.imageWidth;
-      // this._data.height = this.ui.nodes.imageHeight;
- 
+
+    this._data.width = parseInt(this.ui.nodes.imageEl.style.width);
+    this._data.height = parseInt(this.ui.nodes.imageEl.style.height);
+
+    // this._data.width = this.ui.nodes.imageWidth;
+    // this._data.height = this.ui.nodes.imageHeight;
+
     return this.data;
   }
 
@@ -279,7 +275,7 @@ export default class ImageTool {
       isActive: this.data[tune.name],
       onActivate: () => {
         /* If it'a user defined tune, execute it's callback stored in action property */
-        if (typeof tune.action === 'function') {
+        if (typeof tune.action === "function") {
           tune.action(tune.name);
 
           return;
@@ -326,7 +322,7 @@ export default class ImageTool {
        * Drag n drop file from into the Editor
        */
       files: {
-        mimeTypes: ['image/*'],
+        mimeTypes: ["image/*"],
       },
     };
   }
@@ -342,7 +338,7 @@ export default class ImageTool {
    */
   async onPaste(event) {
     switch (event.type) {
-      case 'tag': {
+      case "tag": {
         const image = event.detail.data;
 
         /** Images from PDF */
@@ -357,13 +353,13 @@ export default class ImageTool {
         this.uploadUrl(image.src);
         break;
       }
-      case 'pattern': {
+      case "pattern": {
         const url = event.detail.data;
 
         this.uploadUrl(url);
         break;
       }
-      case 'file': {
+      case "file": {
         const file = event.detail.file;
 
         this.uploadFile(file);
@@ -386,13 +382,13 @@ export default class ImageTool {
    */
   set data(data) {
     this.image = data.file;
-    this._data.caption = data.caption || '';
+    this._data.caption = data.caption || "";
     this.ui.fillCaption(this._data.caption);
 
     ImageTool.tunes.forEach(({ name: tune }) => {
       const value =
-        typeof data[tune] !== 'undefined'
-          ? data[tune] === true || data[tune] === 'true'
+        typeof data[tune] !== "undefined"
+          ? data[tune] === true || data[tune] === "true"
           : false;
 
       this.setTune(tune, value);
@@ -419,8 +415,8 @@ export default class ImageTool {
    */
   set image(file) {
     this._data.file = file || {};
-   
-if (file && file.url) {
+
+    if (file && file.url) {
       this.ui.fillImage(file.url);
     }
   }
@@ -437,7 +433,7 @@ if (file && file.url) {
     if (response.success && response.file) {
       this.image = response.file;
     } else {
-      this.uploadingFailed('incorrect response: ' + JSON.stringify(response));
+      this.uploadingFailed("incorrect response: " + JSON.stringify(response));
     }
   }
 
@@ -449,11 +445,11 @@ if (file && file.url) {
    * @returns {void}
    */
   uploadingFailed(errorText) {
-    console.log('Image Tool: uploading failed because of', errorText);
+    console.log("Image Tool: uploading failed because of", errorText);
 
     this.api.notifier.show({
-      message: this.api.i18n.t('Couldn’t upload image. Please try another.'),
-      style: 'error',
+      message: this.api.i18n.t("Couldn’t upload image. Please try another."),
+      style: "error",
     });
     this.ui.hidePreloader();
   }
@@ -482,7 +478,7 @@ if (file && file.url) {
     this.ui.applyTune(tuneName, value);
     this._data[tuneName] = value;
 
-    if (tuneName === 'stretched') {
+    if (tuneName === "stretched") {
       /**
        * Wait until the API is ready
        */
