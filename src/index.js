@@ -250,9 +250,6 @@ export default class ImageTool {
       this._data.alignment = "";
     }
 
-    // date : input.value 와 연동
-    // this._data.width = parseInt(this.ui.nodes.imageEl.style.width);
-    // this._data.height = parseInt(this.ui.nodes.imageEl.style.height);
     this._data.width = this.ui.nodes.inputWidth.value;
     this._data.height = this.ui.nodes.inputHeight.value;
 
@@ -433,13 +430,6 @@ export default class ImageTool {
    * @param {UploadResponseFormat} response - uploading server response
    * @returns {void}
    */
-  // onUpload(response) {
-  //   if (response.success && response.file) {
-  //     this.image = response.file;
-  //   } else {
-  //     this.uploadingFailed("incorrect response: " + JSON.stringify(response));
-  //   }
-  // }
   onUpload(response) {
     if (response.success && response.file) {
       this.image = response.file;

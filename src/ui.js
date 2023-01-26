@@ -238,7 +238,6 @@ export default class Ui {
    */
   showPreloader(src) {
     this.nodes.imagePreloader.style.backgroundImage = `url(${src})`;
-    // this.nodes.toolBarContainer.style.display = "none";
 
     this.toggleStatus(Ui.status.UPLOADING);
   }
@@ -249,7 +248,7 @@ export default class Ui {
    * @returns {void}
    */
   hidePreloader() {
-    // this.nodes.imagePreloader.style.backgroundImage = "";
+    this.nodes.imagePreloader.style.backgroundImage = "";
     this.toggleStatus(Ui.status.EMPTY);
   }
 

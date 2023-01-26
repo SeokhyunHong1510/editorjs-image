@@ -13,7 +13,6 @@
     margin-bottom: 5px;
 
     &-picture {
-      border: 1px solid var(--bg-color);
       max-width: 100%;
       vertical-align: top;
       display: block;
