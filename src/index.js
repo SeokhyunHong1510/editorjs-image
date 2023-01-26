@@ -154,8 +154,12 @@ export default class ImageTool {
       captionPlaceholder: this.api.i18n.t(
         config.captionPlaceholder || "Caption"
       ),
-      widthPlaceholder: this.api.i18n.t(config.captionPlaceholder || "width"),
-      heightPlaceholder: this.api.i18n.t(config.captionPlaceholder || "height"),
+      widthPlaceholder: this.api.i18n.t(
+        config.captionPlaceholder || "width (px)"
+      ),
+      heightPlaceholder: this.api.i18n.t(
+        config.captionPlaceholder || "height (px)"
+      ),
       buttonContent: config.buttonContent || "",
       uploader: config.uploader || undefined,
       actions: config.actions || [],
@@ -163,12 +167,12 @@ export default class ImageTool {
       isSelectedCenter: config.isSelectedCenter || false,
       isSelectedRight: config.isSelectedRight || false,
       isChangeResizeMode: config.isChangeResizeMode || false,
-      width: data.width || undefined,
-      height: data.height || undefined,
+      width: data.width || "Width (px)",
+      height: data.height || "Height (px)",
+      originWidth: undefined,
+      originHeight: undefined,
       konvaWidth: config.konvaWidth || undefined,
       konvaHeight: config.konvaHeight || undefined,
-      initialWidth: config.initialWidth || data.width,
-      initialHeight: config.initialHeight || data.height,
     };
 
     /**
@@ -246,11 +250,11 @@ export default class ImageTool {
       this._data.alignment = "";
     }
 
-    this._data.width = parseInt(this.ui.nodes.imageEl.style.width);
-    this._data.height = parseInt(this.ui.nodes.imageEl.style.height);
-
-    // this._data.width = this.ui.nodes.imageWidth;
-    // this._data.height = this.ui.nodes.imageHeight;
+    // date : input.value 와 연동
+    // this._data.width = parseInt(this.ui.nodes.imageEl.style.width);
+    // this._data.height = parseInt(this.ui.nodes.imageEl.style.height);
+    this._data.width = this.ui.nodes.inputWidth.value;
+    this._data.height = this.ui.nodes.inputHeight.value;
 
     return this.data;
   }
@@ -429,6 +433,13 @@ export default class ImageTool {
    * @param {UploadResponseFormat} response - uploading server response
    * @returns {void}
    */
+  // onUpload(response) {
+  //   if (response.success && response.file) {
+  //     this.image = response.file;
+  //   } else {
+  //     this.uploadingFailed("incorrect response: " + JSON.stringify(response));
+  //   }
+  // }
   onUpload(response) {
     if (response.success && response.file) {
       this.image = response.file;
@@ -436,7 +447,6 @@ export default class ImageTool {
       this.uploadingFailed("incorrect response: " + JSON.stringify(response));
     }
   }
-
   /**
    * Handle uploader errors
    *

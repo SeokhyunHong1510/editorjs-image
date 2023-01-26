@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .image-tool {
   --bg-color: #cdd1e0;
   --front-color: #388ae5;
@@ -9,8 +13,9 @@
     margin-bottom: 5px;
 
     &-picture {
+      border: 1px solid var(--bg-color);
       max-width: 100%;
-      vertical-align: bottom;
+      vertical-align: top;
       display: block;
     }
 
@@ -38,12 +43,12 @@
         margin-top: -30px;
         margin-left: -30px;
         animation: image-preloader-spin 2s infinite linear;
-        box-sizing: border-box;
       }
     }
   }
 
   &__caption {
+    height: 42px;
     &[contentEditable="true"][data-placeholder]::before {
       position: absolute !important;
       content: attr(data-placeholder);
@@ -64,33 +69,47 @@
   }
 
   &__toolBar {
+    margin: 5px 0;
+    padding: 5px 5px 5px 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 5px 0;
 
-    &__alignContainer {
+    &__alignButtonsWrapper {
       border-radius: 3px;
       border: 1px solid rgba(201, 201, 204, 0.48);
       &-alignButton {
         border: 1px solid transparent;
         background-color: transparent;
+        width: 38px;
+        height: 38px;
         &:hover {
           border: 1px solid rgba(201, 201, 204, 0.48);
         }
       }
     }
 
-    &__centerContainer {
-      padding-right: 15px;
-      border-right: 1px solid rgba(201, 201, 204, 0.48);
+    &__align-selected {
+      background: rgba(56, 138, 229, 0.1);
+      color: #388ae5;
+    }
 
+    &__resizeFormWrapper {
+      padding-right: 20px;
+      border-right: 1px solid rgba(201, 201, 204, 0.48);
       &-resizeForm {
         margin-bottom: 0;
+        input {
+          height: 40px;
+          padding: 10px;
+        }
       }
 
       &-setSizeButton {
+        width: 72px;
+        height: 40px;
         display: inline-block;
         padding: 10px 12px;
         border-radius: 3px;
@@ -113,6 +132,8 @@
       }
 
       &-resetSizeButton {
+        width: 72px;
+        height: 40px;
         display: inline-block;
         padding: 10px 12px;
         margin-left: 10px;
@@ -135,14 +156,15 @@
       }
     }
 
-    &__rightContainer {
+    &__resizeModeWrapper {
       display: flex;
       justify-content: center;
       align-items: center;
       &-undoResizeButton {
+        width: 36px;
+        height: 39px;
         visibility: hidden;
         padding: 5px;
-        /* margin-left: 40px; */
         border-radius: 3px;
         border: 1px solid rgba(201, 201, 204, 0.48);
         font-size: 14.9px;
@@ -151,7 +173,6 @@
         box-shadow: 0 2px 2px 0 rgb(18 30 57 / 4%);
         color: #707684;
         text-align: center;
-        cursor: pointer;
 
         &:disabled,
         &[disabled] {
@@ -163,6 +184,8 @@
       }
 
       &-resizeModeButton {
+        width: 36px;
+        height: 39px;
         display: inline-block;
         padding: 5px;
         margin-left: 10px;
@@ -177,10 +200,13 @@
         cursor: pointer;
       }
 
-      &-resizeModeFinishedButton {
+      &-exitResizeModeButton {
+        width: 36px;
+        height: 39px;
+        visibility: hidden;
         display: inline-block;
         padding: 5px;
-        margin-left: 10px;
+        margin: 0 10px;
         border-radius: 3px;
         border: 1px solid rgba(201, 201, 204, 0.48);
         font-size: 14.9px;
@@ -193,23 +219,11 @@
     }
   }
 
-  &__align-selected {
-    background: rgba(56, 138, 229, 0.1);
-    color: #388ae5;
-  }
-
   &__setImage {
     display: inline-block;
     width: 90px;
     margin-right: 10px;
   }
-
-  /* &__resizeContainer {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-bottom: 10px;
-  } */
 
   &--empty {
     ^&__image {
@@ -268,7 +282,9 @@
 
   &--withBorder {
     ^&__image {
-      border: 1px solid var(--border-color);
+      &-picture {
+        border: 1px solid var(--border-color);
+      }
     }
   }
 
@@ -320,18 +336,14 @@
       margin: 0 6px 0 0;
     }
   }
+
   button {
     &:hover {
+      cursor: pointer;
       border: 2px solid var(--front-color);
     }
   }
 }
-/* 
-.ce-block__content {
-  position: relative;
-  max-width: 680;
-  margin: 0 auto;
-} */
 
 @keyframes image-preloader-spin {
   0% {

@@ -32,11 +32,11 @@ export default class Ui {
       wrapper: make("div", [this.CSS.baseClass, this.CSS.wrapper]),
       imageContainer: make("div", [this.CSS.imageContainer]),
       toolBarContainer: make("div", this.CSS.toolBarContainer),
-      alignContainer: make("div", this.CSS.alignContainer),
+      alignButtonsWrapper: make("div", this.CSS.alignButtonsWrapper),
       leftAlign: this.createLeftAlignButton(),
       centerAlign: this.createCenterAlignButton(),
       rightAlign: this.createRightAlignButton(),
-      toolBarCenterContainer: make("div", this.CSS.toolBarCenterContainer),
+      resizeFormWrapper: make("div", this.CSS.resizeFormWrapper),
       resizeForm: make("form", [this.CSS.resizeForm]),
       inputWidth: make(
         "input",
@@ -55,9 +55,9 @@ export default class Ui {
 
       setSizeButton: this.createSetSizeButton(),
       resetSizeButton: this.createResetSizeButton(),
-      toolBarRightContainer: make("div", this.CSS.toolBarRightContainer),
+      resizeModeWrapper: make("div", this.CSS.resizeModeWrapper),
       resizeModeButton: this.createResizeModeButton(),
-      resizeModeFinishedButton: this.createResizeModeFinishedButton(),
+      exitResizeModeButton: this.createExitResizeModeButton(),
       undoResizeButton: this.createUndoResizeButton(),
       fileButton: this.createFileButton(),
       imageEl: undefined,
@@ -72,30 +72,48 @@ export default class Ui {
     this.nodes.inputWidth.addEventListener("keydown", (e) => {
       if (e.keyCode === 13) {
         this.onSetImageSize();
-        // this.nodes.inputWidth.value = this.nodes.imageEl.style.width;
       }
     });
+
     this.nodes.inputHeight.value = this.config.height;
     this.nodes.inputHeight.addEventListener("keydown", (e) => {
       if (e.keyCode === 13) {
         this.onSetImageSize();
-        // this.nodes.inputHeight.value = this.nodes.imageEl.style.height;
       }
     });
 
+    /**
+     * Create base structure
+     *  <wrapper>
+     *    <image-container>
+     *      <image-preloader />
+     *    </image-container>
+     *
+     *    <toolBarContainer>
+     *       <alignButtonsWrapper>
+     *       </alignButtonsWrapper>
+     *       <resizeFormWrapper >
+     *       </resizeFormWrapper>
+     *       <resizeModeWrapper>
+     *       </resizeModeWrapper>
+     *    </toolBarContainer>
+     *
+     *    <caption />
+     *    <select-file-button />
+     *  </wrapper>
+     */
+
     this.nodes.caption.dataset.placeholder = this.config.captionPlaceholder;
-    this.nodes.wrapper.appendChild(this.nodes.imagePreloader);
+    this.nodes.imageContainer.appendChild(this.nodes.imagePreloader);
     this.nodes.wrapper.appendChild(this.nodes.imageContainer);
     this.nodes.wrapper.appendChild(this.nodes.toolBarContainer);
 
-    this.nodes.toolBarContainer.appendChild(this.nodes.alignContainer);
-    this.nodes.toolBarContainer.appendChild(this.nodes.toolBarCenterContainer);
-    this.nodes.toolBarContainer.appendChild(this.nodes.toolBarRightContainer);
+    this.nodes.toolBarContainer.appendChild(this.nodes.alignButtonsWrapper);
+    this.nodes.alignButtonsWrapper.appendChild(this.nodes.leftAlign);
+    this.nodes.alignButtonsWrapper.appendChild(this.nodes.centerAlign);
+    this.nodes.alignButtonsWrapper.appendChild(this.nodes.rightAlign);
 
-    this.nodes.alignContainer.appendChild(this.nodes.leftAlign);
-    this.nodes.alignContainer.appendChild(this.nodes.centerAlign);
-    this.nodes.alignContainer.appendChild(this.nodes.rightAlign);
-
+    this.nodes.toolBarContainer.appendChild(this.nodes.resizeFormWrapper);
     this.nodes.resizeForm.appendChild(this.nodes.inputWidth);
     this.nodes.resizeForm.appendChild(this.nodes.inputHeight);
     this.nodes.resizeForm.appendChild(this.nodes.setSizeButton);
@@ -104,12 +122,12 @@ export default class Ui {
       e.preventDefault();
     });
 
-    this.nodes.toolBarCenterContainer.appendChild(this.nodes.resizeForm);
-    this.nodes.toolBarRightContainer.appendChild(this.nodes.undoResizeButton);
-    this.nodes.toolBarRightContainer.appendChild(this.nodes.resizeModeButton);
-    this.nodes.toolBarRightContainer.appendChild(
-      this.nodes.resizeModeFinishedButton
-    );
+    this.nodes.toolBarContainer.appendChild(this.nodes.resizeModeWrapper);
+    this.nodes.resizeFormWrapper.appendChild(this.nodes.resizeForm);
+    this.nodes.resizeModeWrapper.appendChild(this.nodes.resizeModeButton);
+    this.nodes.resizeModeWrapper.appendChild(this.nodes.exitResizeModeButton);
+    this.nodes.resizeModeWrapper.appendChild(this.nodes.undoResizeButton);
+
     this.nodes.wrapper.appendChild(this.nodes.caption);
     this.nodes.wrapper.appendChild(this.nodes.fileButton);
   }
@@ -130,27 +148,33 @@ export default class Ui {
       /**
        * Tool's classes
        */
+
       wrapper: "image-tool",
       imageContainer: "image-tool__image",
       imagePreloader: "image-tool__image-preloader",
       imageEl: "image-tool__image-picture",
-      toolBarContainer: "image-tool__toolBar",
-      alignContainer: "image-tool__toolBar__alignContainer",
-      alignButton: "image-tool__toolBar__alignContainer-alignButton",
-      leftAlign: "image-tool__toolBar__alignContainer-leftAlign",
-      centerAlign: "image-tool__toolBar__alignContainer-centerAlign",
-      rightAlign: "image-tool__toolBar__alignContainer-rightAlign",
-      toolBarCenterContainer: "image-tool__toolBar__centerContainer",
-      resizeForm: "image-tool__toolBar__centerContainer-resizeForm",
-      setSizeButton: "image-tool__toolBar__centerContainer-setSizeButton",
-      resetSizeButton: "image-tool__toolBar__centerContainer-resetSizeButton",
-      toolBarRightContainer: "image-tool__toolBar__rightContainer",
-      resizeModeButton: "image-tool__toolBar__rightContainer-resizeModeButton",
-      resizeModeFinishedButton:
-        "image-tool__toolBar__rightContainer-resizeModeFinishedButton",
-      undoResizeButton: "image-tool__toolBar__rightContainer-undoResizeButton",
       caption: "image-tool__caption",
       setImage: "image-tool__setImage",
+      toolBarContainer: "image-tool__toolBar",
+
+      alignButtonsWrapper: "image-tool__toolBar__alignButtonsWrapper",
+      alignButton: "image-tool__toolBar__alignButtonsWrapper-alignButton",
+      leftAlign: "image-tool__toolBar__alignButtonsWrapper-leftAlign",
+      centerAlign: "image-tool__toolBar__alignButtonsWrapper-centerAlign",
+      rightAlign: "image-tool__toolBar__alignButtonsWrapper-rightAlign",
+
+      resizeFormWrapper: "image-tool__toolBar__resizeFormWrapper",
+      resizeForm: "image-tool__toolBar__resizeFormWrapper-resizeForm",
+      setSizeButton: "image-tool__toolBar__resizeFormWrapper-setSizeButton",
+      resetSizeButton: "image-tool__toolBar__resizeFormWrapper-resetSizeButton",
+
+      resizeModeWrapper: "image-tool__toolBar__resizeModeWrapper",
+      resizeModeButton:
+        "image-tool__toolBar__resizeModeWrapper-resizeModeButton",
+      exitResizeModeButton:
+        "image-tool__toolBar__resizeModeWrapper-exitResizeModeButton",
+      undoResizeButton:
+        "image-tool__toolBar__resizeModeWrapper-undoResizeButton",
     };
   }
 
@@ -178,6 +202,7 @@ export default class Ui {
    */
   render(toolData) {
     if (!toolData.file || Object.keys(toolData.file).length === 0) {
+      this.nodes.toolBarContainer.style.display = "none";
       this.toggleStatus(Ui.status.EMPTY);
     } else {
       this.toggleStatus(Ui.status.UPLOADING);
@@ -213,6 +238,7 @@ export default class Ui {
    */
   showPreloader(src) {
     this.nodes.imagePreloader.style.backgroundImage = `url(${src})`;
+    // this.nodes.toolBarContainer.style.display = "none";
 
     this.toggleStatus(Ui.status.UPLOADING);
   }
@@ -223,7 +249,7 @@ export default class Ui {
    * @returns {void}
    */
   hidePreloader() {
-    this.nodes.imagePreloader.style.backgroundImage = "";
+    // this.nodes.imagePreloader.style.backgroundImage = "";
     this.toggleStatus(Ui.status.EMPTY);
   }
 
@@ -280,8 +306,11 @@ export default class Ui {
      * @type {Element}
      */
     this.nodes.imageEl = make(tag, this.CSS.imageEl, attributes);
+    this.nodes.toolBarContainer.style.display = "";
     this.nodes.imageEl.style.width = this.config.width;
     this.nodes.imageEl.style.height = this.config.height;
+    this.config.originWidth = this.nodes.imageEl.naturalWidth;
+    this.config.originHeight = this.nodes.imageEl.naturalHeight;
 
     /**
      * Add load event listener
@@ -397,7 +426,6 @@ export default class Ui {
         e.preventDefault();
       }
     });
-
     return input;
   }
 
@@ -423,55 +451,46 @@ export default class Ui {
     return input;
   }
 
-  /**
-   * get width value entered or cotrolled by user
-   *
-   * @returns {String}
-   */
-  get getInputWidth() {
-    return this.nodes.inputWidth.value;
-  }
-
-  /**
-   * get height value entered or cotrolled by user
-   *
-   * @returns {String}
-   */
-  get getInputHeight() {
-    return this.nodes.inputHeight.value;
-  }
-
   makeImageResizable(imageEl) {
-    var imgWidth = this.nodes.imageEl.width;
-    var imgHeight = this.nodes.imageEl.height;
-
     var ceBlockContentNodes = document.querySelectorAll(".ce-block__content");
-
     if (ceBlockContentNodes.length > 0) {
       this.config.konvaWidth = ceBlockContentNodes[0].clientWidth;
     }
+
+    var imgWidth = Number(this.nodes.inputWidth.value);
+    var imgHeight = Number(this.nodes.inputHeight.value);
+
+    var originWidth = this.config.originWidth;
+    var originHeight = this.config.originHeight;
+
     var canvasWidth = this.config.konvaWidth;
-    var canvasHeight = (imgHeight / imgWidth) * canvasWidth;
+    var canvasHeight = (originHeight / originWidth) * canvasWidth;
+    var canvasHeightForInput = (imgHeight / imgWidth) * canvasWidth;
 
     var stage = new Konva.Stage({
       container: this.nodes.imageContainer,
       width: canvasWidth,
-      height: canvasHeight,
+      height: canvasHeightForInput || canvasHeight,
     });
 
     var layer = new Konva.Layer();
     stage.add(layer);
 
-    // 이미지 사이즈
+    var konvaImageSize = {};
+
+    if (originWidth < canvasWidth) {
+      konvaImageSize.width = originWidth;
+      konvaImageSize.height = originHeight;
+    } else {
+      konvaImageSize.width = canvasWidth;
+      konvaImageSize.height = canvasWidth * (originHeight / originWidth);
+    }
     var resizeImg = new Konva.Image({
-      // width : imgWidth,
-      // height: imgHeight,
-      width: this.config.width,
-      height: this.config.height,
+      width: imgWidth || konvaImageSize.width,
+      height: imgHeight || konvaImageSize.height,
       draggable: true,
     });
 
-    // 이미지를 설정 전달
     resizeImg.image(imageEl);
     layer.add(resizeImg);
 
@@ -540,20 +559,14 @@ export default class Ui {
     const prevWidth = this.nodes.imageEl.style.width;
     const prevHeight = this.nodes.imageEl.style.height;
 
-    if (this.nodes.inputWidth.value) {
-      if (this.nodes.inputHeight.value) {
-        this.nodes.imageEl.style.width = getWidthValue;
-        this.nodes.imageEl.style.height = getHeightValue;
-      } else {
-        this.nodes.imageEl.style.width = getWidthValue;
-        this.nodes.imageEl.style.height = prevHeight;
-      }
-    } else {
-      if (this.nodes.inputHeight.value) {
-        this.nodes.imageEl.style.width = prevWidth;
-        this.nodes.imageEl.style.height = getHeightValue;
-      }
+    if (!getWidthValue && !getHeightValue) {
+      this.nodes.imageEl.style.width = "auto";
+      this.nodes.imageEl.style.height = "auto";
+      return;
     }
+
+    this.nodes.imageEl.style.width = getWidthValue || prevWidth;
+    this.nodes.imageEl.style.height = getHeightValue || prevHeight;
   }
 
   /**
@@ -567,14 +580,8 @@ export default class Ui {
     button.innerHTML = `${this.api.i18n.t("Resize")}`;
 
     button.addEventListener("click", (e) => {
-      if (
-        this.nodes.inputWidth.value !== "" ||
-        this.nodes.inputHeight.value !== ""
-      ) {
-        this.onSetImageSize();
-      } else {
-        e.preventDefault();
-      }
+      this.onSetImageSize();
+      e.preventDefault();
     });
 
     return button;
@@ -590,10 +597,9 @@ export default class Ui {
     const button = make("button", [this.CSS.resetSizeButton]);
     button.innerHTML = `${this.api.i18n.t("Reset")}`;
     button.addEventListener("click", () => {
-      this.nodes.imageEl.style.width = this.config.width;
-      this.nodes.imageEl.style.height = this.config.height;
       this.nodes.inputWidth.value = "";
       this.nodes.inputHeight.value = "";
+      this.nodes.setSizeButton.click();
     });
 
     return button;
@@ -609,25 +615,15 @@ export default class Ui {
     const button = make("button", [this.CSS.resizeModeButton]);
     button.innerHTML = `${IconMarker}`;
 
-    button.addEventListener("click", () => {
+    button.addEventListener("click", (e) => {
+      this.nodes.resizeModeButton.style.visibility = "hidden";
+      this.nodes.exitResizeModeButton.style.visibility = "visible";
+      this.nodes.undoResizeButton.style.visibility = "visible";
+
       if (!this.config.isChangeResizeMode) {
         this.config.isChangeResizeMode = true;
         this.applyTune("resizeMode-on", this.config.isChangeResizeMode);
 
-        // konva.prevSize가 존재할때 undoResizeButton 생성
-        if (this.konva.prevSize) {
-          this.nodes.undoResizeButton.style.visibility = "visible";
-          this.konva.prevSize.width = Number(
-            this.nodes.imageEl.style.width.split("px")[0]
-          );
-          this.konva.prevSize.height = Number(
-            this.nodes.imageEl.style.height.split("px")[0]
-          );
-        }
-
-        this.nodes.resizeModeButton.disabled = true;
-        this.nodes.resizeModeButton.style.color = "#388ae5";
-        this.nodes.resizeModeButton.style.border = "2px solid #388ae5";
         this.nodes.setSizeButton.disabled = true;
         this.nodes.resetSizeButton.disabled = true;
         this.nodes.inputWidth.disabled = true;
@@ -636,6 +632,7 @@ export default class Ui {
         this.nodes.imageContainer.style.backgroundImage = `repeating-linear-gradient(45deg, #c9c9cb 25%, transparent 25%, transparent 75%, #c9c9cb 75%, #c9c9cb), repeating-linear-gradient(45deg, #c9c9cb 25%, #f7f7f8 25%, #f7f7f8 75%, #c9c9cb 75%, #c9c9cb)`;
         this.nodes.imageContainer.style.backgroundPosition = `0 0, 10px 10px`;
         this.nodes.imageContainer.style.backgroundSize = `20px 20px`;
+
         this.makeImageResizable(this.nodes.imageEl);
       }
     });
@@ -649,38 +646,42 @@ export default class Ui {
    * @returns {Element}
    */
 
-  createResizeModeFinishedButton() {
-    const button = make("button", [this.CSS.resizeModeFinishedButton]);
-
-    // button.innerHTML = `${this.api.i18n.t("ok")}`;
+  createExitResizeModeButton() {
+    const button = make("button", [this.CSS.exitResizeModeButton]);
     button.innerHTML = `${IconChecklist}`;
 
     button.addEventListener("click", () => {
+      this.nodes.undoResizeButton.style.visibility = "hidden";
+      this.nodes.exitResizeModeButton.style.visibility = "hidden";
+      this.nodes.resizeModeButton.style.visibility = "visible";
+
       if (this.config.isChangeResizeMode) {
         this.konva.stage.content.remove();
-        this.nodes.resizeModeButton.style.color = "";
-        this.nodes.resizeModeButton.style.border = "";
-        this.nodes.imageContainer.style.backgroundImage = "";
         this.nodes.imageContainer.style.backgroundColor = "";
         this.nodes.imageContainer.style.backgroundImage = "";
         this.nodes.imageContainer.style.backgroundPosition = "";
         this.nodes.imageContainer.style.backgroundSize = "";
 
-        this.nodes.undoResizeButton.style.visibility = "hidden";
         this.nodes.setSizeButton.disabled = false;
         this.nodes.resetSizeButton.disabled = false;
         this.nodes.inputWidth.disabled = false;
         this.nodes.inputHeight.disabled = false;
-
-        this.config.width =
-          this.konva.group.parent.children[1].children[0].attrs.width;
-        this.config.height =
-          this.konva.group.parent.children[1].children[0].attrs.height;
-        this.nodes.imageEl.style.cssText = `width:${this.config.width}px;height:${this.config.height}px;`;
-        this.nodes.imageContainer.appendChild(this.nodes.imageEl);
-        this.nodes.inputWidth.value = parseInt(this.config.width, 10);
-        this.nodes.inputHeight.value = parseInt(this.config.height, 10);
         this.nodes.resizeModeButton.disabled = false;
+
+        const resizedWidth = parseInt(
+          this.konva.group.parent.children[1].children[0].attrs.width,
+          10
+        );
+        const resizedHeight = parseInt(
+          this.konva.group.parent.children[1].children[0].attrs.height,
+          10
+        );
+
+        this.nodes.inputWidth.value = resizedWidth;
+        this.nodes.inputHeight.value = resizedHeight;
+        this.nodes.imageEl.style.width = resizedWidth + "px";
+        this.nodes.imageEl.style.height = resizedHeight + "px";
+        this.nodes.imageContainer.appendChild(this.nodes.imageEl);
         this.config.isChangeResizeMode = false;
       }
     });
@@ -694,9 +695,24 @@ export default class Ui {
 
     button.addEventListener("click", () => {
       this.konva.stage.destroyChildren();
-
       var layerForPrev = new Konva.Layer();
       this.konva.stage.add(layerForPrev);
+
+      if (!this.konva.prevSize.width && !this.konva.prevSize.height) {
+        var originW = this.nodes.imageEl.naturalWidth;
+        var originH = this.nodes.imageEl.naturalHeight;
+
+        var konvaWidth = this.config.konvaWidth;
+        var konvaHeight = (originH / originW) * konvaWidth;
+
+        if (originW < konvaWidth) {
+          this.konva.prevSize.width = originW;
+          this.konva.prevSize.height = originH;
+        } else {
+          this.konva.prevSize.width = konvaWidth;
+          this.konva.prevSize.height = konvaHeight;
+        }
+      }
 
       var prevImage = new Konva.Image({
         width: this.konva.prevSize.width,
@@ -725,7 +741,16 @@ export default class Ui {
       this.konva.group = prevImage;
 
       layerForPrev.add(trForPrev);
+
       trForPrev.nodes([prevImage]);
+
+      this.konva.prevSize.width = Number(
+        this.nodes.imageEl.style.width.split("px")[0]
+      );
+
+      this.konva.prevSize.height = Number(
+        this.nodes.imageEl.style.height.split("px")[0]
+      );
     });
 
     return button;
