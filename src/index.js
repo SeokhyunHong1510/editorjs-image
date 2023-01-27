@@ -167,8 +167,8 @@ export default class ImageTool {
       isSelectedCenter: config.isSelectedCenter || false,
       isSelectedRight: config.isSelectedRight || false,
       isChangeResizeMode: config.isChangeResizeMode || false,
-      width: data.width || "Width (px)",
-      height: data.height || "Height (px)",
+      width: data.width || "",
+      height: data.height || "",
       originWidth: undefined,
       originHeight: undefined,
       konvaWidth: config.konvaWidth || undefined,
@@ -250,8 +250,8 @@ export default class ImageTool {
       this._data.alignment = "";
     }
 
-    this._data.width = this.ui.nodes.inputWidth.value;
-    this._data.height = this.ui.nodes.inputHeight.value;
+    this._data.width = (this.ui.nodes.inputWidth.value ? parseInt(this.ui.nodes.inputWidth.value, 10) : undefined);
+    this._data.height = (this.ui.nodes.inputHeight.value ? parseInt(this.ui.nodes.inputHeight.value, 10) : undefined);
 
     return this.data;
   }
