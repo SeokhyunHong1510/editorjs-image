@@ -39,8 +39,8 @@
         border-top-color: var(--front-color);
         left: 50%;
         top: 50%;
-        margin-top: -30px;
-        margin-left: -30px;
+        margin-top: -32px;
+        margin-left: -32px;
         animation: image-preloader-spin 2s infinite linear;
       }
     }
