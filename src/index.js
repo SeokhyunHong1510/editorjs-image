@@ -154,12 +154,8 @@ export default class ImageTool {
       captionPlaceholder: this.api.i18n.t(
         config.captionPlaceholder || "Caption"
       ),
-      widthPlaceholder: this.api.i18n.t(
-        config.captionPlaceholder || "width (px)"
-      ),
-      heightPlaceholder: this.api.i18n.t(
-        config.captionPlaceholder || "height (px)"
-      ),
+      widthPlaceholder: "width (px)",
+      heightPlaceholder: "height (px)",
       buttonContent: config.buttonContent || "",
       uploader: config.uploader || undefined,
       actions: config.actions || [],

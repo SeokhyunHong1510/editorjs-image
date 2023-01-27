@@ -69,6 +69,7 @@ export default class Ui {
     this.konva = {};
 
     this.nodes.inputWidth.value = this.config.width;
+    this.nodes.inputWidth.placeholder = this.config.widthPlaceholder;
     this.nodes.inputWidth.addEventListener("keydown", (e) => {
       if (e.keyCode === 13) {
         this.onSetImageSize();
@@ -76,6 +77,7 @@ export default class Ui {
     });
 
     this.nodes.inputHeight.value = this.config.height;
+    this.nodes.inputHeight.placeholder = this.config.heightPlaceholder;
     this.nodes.inputHeight.addEventListener("keydown", (e) => {
       if (e.keyCode === 13) {
         this.onSetImageSize();
