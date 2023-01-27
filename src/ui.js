@@ -125,8 +125,8 @@ export default class Ui {
     this.nodes.toolBarContainer.appendChild(this.nodes.resizeModeWrapper);
     this.nodes.resizeFormWrapper.appendChild(this.nodes.resizeForm);
     this.nodes.resizeModeWrapper.appendChild(this.nodes.resizeModeButton);
-    this.nodes.resizeModeWrapper.appendChild(this.nodes.exitResizeModeButton);
     this.nodes.resizeModeWrapper.appendChild(this.nodes.undoResizeButton);
+    this.nodes.resizeModeWrapper.appendChild(this.nodes.exitResizeModeButton);
 
     this.nodes.wrapper.appendChild(this.nodes.caption);
     this.nodes.wrapper.appendChild(this.nodes.fileButton);
@@ -615,9 +615,9 @@ export default class Ui {
     button.innerHTML = `${IconMarker}`;
 
     button.addEventListener("click", (e) => {
-      this.nodes.resizeModeButton.style.visibility = "hidden";
-      this.nodes.exitResizeModeButton.style.visibility = "visible";
-      this.nodes.undoResizeButton.style.visibility = "visible";
+      this.nodes.resizeModeButton.style.display = "none";
+      this.nodes.exitResizeModeButton.style.display = "inline-block";
+      this.nodes.undoResizeButton.style.display = "inline-block";
 
       if (!this.config.isChangeResizeMode) {
         this.config.isChangeResizeMode = true;
@@ -648,11 +648,12 @@ export default class Ui {
   createExitResizeModeButton() {
     const button = make("button", [this.CSS.exitResizeModeButton]);
     button.innerHTML = `${IconChecklist}`;
+    button.style.display = "none";
 
     button.addEventListener("click", () => {
-      this.nodes.undoResizeButton.style.visibility = "hidden";
-      this.nodes.exitResizeModeButton.style.visibility = "hidden";
-      this.nodes.resizeModeButton.style.visibility = "visible";
+      this.nodes.resizeModeButton.style.display = "inline-block";
+      this.nodes.exitResizeModeButton.style.display = "none";
+      this.nodes.undoResizeButton.style.display = "none";
 
       if (this.config.isChangeResizeMode) {
         this.konva.stage.content.remove();
@@ -691,6 +692,7 @@ export default class Ui {
   createUndoResizeButton() {
     const button = make("button", [this.CSS.undoResizeButton]);
     button.innerHTML = `${IconUndo}`;
+    button.style.display = "none";
 
     button.addEventListener("click", () => {
       this.konva.stage.destroyChildren();

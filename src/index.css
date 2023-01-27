@@ -159,19 +159,21 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      &-undoResizeButton {
-        width: 36px;
-        height: 39px;
-        visibility: hidden;
-        padding: 5px;
+      &-undoResizeButton,
+      &-resizeModeButton,
+      &-exitResizeModeButton {
+        width: 40px;
+        height: 40px;
+        margin-left: 5px;
         border-radius: 3px;
         border: 1px solid rgba(201, 201, 204, 0.48);
         font-size: 14.9px;
         background: #fff;
+        box-sizing: border-box;
         -webkit-box-shadow: 0 2px 2px 0 rgb(18 30 57 / 4%);
         box-shadow: 0 2px 2px 0 rgb(18 30 57 / 4%);
         color: #707684;
-        text-align: center;
+        cursor: pointer;
 
         &:disabled,
         &[disabled] {
@@ -180,41 +182,11 @@
           color: white;
           cursor: default;
         }
+        &:hover {
+          border: 2px solid var(--front-color);
+        }
       }
 
-      &-resizeModeButton {
-        width: 36px;
-        height: 39px;
-        display: inline-block;
-        padding: 5px;
-        margin-left: 10px;
-        border-radius: 3px;
-        border: 1px solid rgba(201, 201, 204, 0.48);
-        font-size: 14.9px;
-        background: #fff;
-        -webkit-box-shadow: 0 2px 2px 0 rgb(18 30 57 / 4%);
-        box-shadow: 0 2px 2px 0 rgb(18 30 57 / 4%);
-        color: #707684;
-        text-align: center;
-        cursor: pointer;
-      }
-
-      &-exitResizeModeButton {
-        width: 36px;
-        height: 39px;
-        visibility: hidden;
-        display: inline-block;
-        padding: 5px;
-        margin: 0 10px;
-        border-radius: 3px;
-        border: 1px solid rgba(201, 201, 204, 0.48);
-        font-size: 14.9px;
-        background: #fff;
-        box-shadow: 0 2px 2px 0 rgb(18 30 57 / 4%);
-        color: #707684;
-        text-align: center;
-        cursor: pointer;
-      }
     }
   }
 
@@ -336,12 +308,6 @@
     }
   }
 
-  button {
-    &:hover {
-      cursor: pointer;
-      border: 2px solid var(--front-color);
-    }
-  }
 }
 
 @keyframes image-preloader-spin {
