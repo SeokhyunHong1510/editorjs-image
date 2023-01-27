@@ -326,6 +326,7 @@ export default class Ui {
     });
 
     this.nodes.imageContainer.appendChild(this.nodes.imageEl);
+    this.nodes.fileButton.style.display = "none";
   }
 
   /**
