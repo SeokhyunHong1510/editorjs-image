@@ -437,6 +437,7 @@ export default class ImageTool {
       this.uploadingFailed("incorrect response: " + JSON.stringify(response));
     }
   }
+
   /**
    * Handle uploader errors
    *
