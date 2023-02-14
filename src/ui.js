@@ -310,14 +310,16 @@ export default class Ui {
     this.nodes.toolBarContainer.style.display = "";
     this.nodes.imageEl.style.width = this.config.width;
     this.nodes.imageEl.style.height = this.config.height;
-    this.config.originWidth = this.nodes.imageEl.naturalWidth;
-    this.config.originHeight = this.nodes.imageEl.naturalHeight;
 
     /**
      * Add load event listener
      */
     this.nodes.imageEl.addEventListener(eventName, () => {
       this.toggleStatus(Ui.status.FILLED);
+
+      // 이미지가 로드 되었을 때 너비를 가져온다
+      this.config.originWidth = this.nodes.imageEl.naturalWidth;
+      this.config.originHeight = this.nodes.imageEl.naturalHeight;
 
       /**
        * Preloader does not exists on first rendering with presaved data
