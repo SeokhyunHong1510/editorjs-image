@@ -1,14 +1,30 @@
+<style>
+  section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  section > div#editorjs {
+    width: 700px;
+  }
+  section > pre {
+    width: 500px;
+  }
+</style>
+
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
 <script src="dist/bundle.js"></script>
 <script src="https://unpkg.com/konva@8.4.0/konva.min.js"></script>
 
-<div id="editorjs"></div>
-
-<button id="save-button">Save</button>
-<pre id="output"></pre>
+<section>
+  <div id="editorjs"></div>
+  <pre></pre>
+</section>
 
 <script>
+  const data = JSON.parse(localStorage.getItem("editorData") || "{}")
   const editor = new EditorJS({
+    data,
     autofocus: true,
     tools: {
       image: {
@@ -18,62 +34,26 @@
             byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
             byUrl: "http://localhost:8008/fetchUrl", // Your endpoint that provides uploading by Url
           },
+          captionPlaceholder: "이미지 설명"
         },
       },
     },
-
-    data: {
-      time: 1552744582955,
-      blocks: [
-        {
-          type: "image",
-          data: {
-            file: {
-              url: "https://via.placeholder.com/560x315",
-            },
-            caption: "Resized Image",
-            withBorder: false,
-            withBackground: false,
-            stretched: false,
-            width: 400,
-            height: 200,
-          },
-        },
-        {
-          type: "image",
-          data: {
-            file: {
-              url: "https://via.placeholder.com/1280x720",
-            },
-            caption: "Large Image",
-            withBorder: false,
-            withBackground: false,
-            stretched: false,
-          },
-        },
-        {
-          type: "image",
-          data: {
-            file: {
-              url: "https://via.placeholder.com/480x270",
-            },
-            caption: "Small Image",
-            withBorder: false,
-            withBackground: false,
-            stretched: false,
-          },
-        },
-      ],
-      version: "2.11.10",
+    i18n: {
+      messages: {
+        tools: {
+          image: {
+            'Reset': '재설정',
+            'Resize': '적용',
+            'Select an Image': '사진을 첨부해주세요',
+          }
+        }
+      }
     },
-  });
-
-  const saveButton = document.getElementById("save-button");
-  const output = document.getElementById("output");
-
-  saveButton.addEventListener("click", () => {
-    editor.save().then((savedData) => {
-      output.innerHTML = JSON.stringify(savedData, null, 4);
-    });
+    onChange: (s) => {
+      s.saver.save().then((r) => {
+        localStorage.setItem("editorData", JSON.stringify(r))
+        document.querySelector('pre').innerHTML = JSON.stringify(r, null, 4)
+      })
+    },
   });
 </script>

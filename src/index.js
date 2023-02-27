@@ -41,7 +41,7 @@
  * @property {string} file.url — image URL
  */
 
-import "./index.css";
+import "./index.scss";
 
 import Ui from "./ui";
 import Uploader from "./uploader";

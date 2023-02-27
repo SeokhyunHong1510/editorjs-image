@@ -110,11 +110,6 @@ export default class Ui {
     this.nodes.wrapper.appendChild(this.nodes.imageContainer);
     this.nodes.wrapper.appendChild(this.nodes.toolBarContainer);
 
-    this.nodes.toolBarContainer.appendChild(this.nodes.alignButtonsWrapper);
-    this.nodes.alignButtonsWrapper.appendChild(this.nodes.leftAlign);
-    this.nodes.alignButtonsWrapper.appendChild(this.nodes.centerAlign);
-    this.nodes.alignButtonsWrapper.appendChild(this.nodes.rightAlign);
-
     this.nodes.toolBarContainer.appendChild(this.nodes.resizeFormWrapper);
     this.nodes.resizeForm.appendChild(this.nodes.inputWidth);
     this.nodes.resizeForm.appendChild(this.nodes.inputHeight);
@@ -123,6 +118,11 @@ export default class Ui {
     this.nodes.resizeForm.addEventListener("submit", (e) => {
       e.preventDefault();
     });
+
+    this.nodes.toolBarContainer.appendChild(this.nodes.alignButtonsWrapper);
+    this.nodes.alignButtonsWrapper.appendChild(this.nodes.leftAlign);
+    this.nodes.alignButtonsWrapper.appendChild(this.nodes.centerAlign);
+    this.nodes.alignButtonsWrapper.appendChild(this.nodes.rightAlign);
 
     this.nodes.toolBarContainer.appendChild(this.nodes.resizeModeWrapper);
     this.nodes.resizeFormWrapper.appendChild(this.nodes.resizeForm);
