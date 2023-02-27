@@ -6,7 +6,7 @@ import {
   IconUndo,
   IconChecklist,
 } from "@codexteam/icons";
-import Crop from './icons/Crop.svg'
+import Crop from './icons/Crop.svg';
 import { make } from "./utils/dom";
 
 /**
