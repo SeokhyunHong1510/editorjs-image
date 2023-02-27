@@ -4,9 +4,9 @@ import {
   IconAlignRight,
   IconAlignCenter,
   IconUndo,
-  IconMarker,
   IconChecklist,
 } from "@codexteam/icons";
+import Crop from './icons/Crop.svg'
 import { make } from "./utils/dom";
 
 /**
@@ -617,7 +617,7 @@ export default class Ui {
 
   createResizeModeButton() {
     const button = make("button", [this.CSS.resizeModeButton]);
-    button.innerHTML = `${IconMarker}`;
+    button.innerHTML = Crop;
 
     button.addEventListener("click", (e) => {
       this.nodes.resizeModeButton.style.display = "none";
